@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="coctails">
+<head>
+	<meta charset="UTF-8">
+	<title>Coctails</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+</head>
+<body>
+
+	<div ng-controller="MainController"
+		 class="container">
+		<h1>Модель данных {{ test }}</h1>
+		<pre>{{ coctailsModel }}</pre>
+
+		<div class="form-group">
+			<input type="text" class="form-control" id="search" placeholder="Поиск">
+		</div>
+
+		<table class="table table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Название</th>
+					<th scope="col">Состав</th>
+					<th scope="col">Рецепт</th>
+				</tr>
+				<tr>
+					<th></th>
+					<th>
+						<input type="text">
+					</th>
+					<th>
+						<input ng-model="search.$"
+							   type="text">
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="(key1, value1) in coctailsModel | filter:search:strict track by $index">
+					<th scope="row">{{ $index+1 }}</th>
+					<td>{{ coctailsModel[$index].name }}</td>
+					<td>
+						<p ng-repeat="(key2, value2) in coctailsModel[$index].products track by $index"><span>{{ value2.quantity }}</span> <span>{{ value2.product }}</span></p>
+					</td>
+					<td>{{ coctailsModel[$index].recipe }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.min.js"></script>
+	<script>
+		var MODULE_NAME = "coctails";
+		var alcoholModel = {
+			"tequila": "текила"
+		};
+		var liqueurModel = {
+			"cointreau": "куантро"
+		};
+		var juiceModel = {
+			"orange": "апельсиновый сок",
+			"lime": "сок лайма"
+		};
+		var syrupModel = {
+			"grenadine": "гренадин"
+		};
+		var coctailsModel = [
+			{
+				"name": "Маргарита",
+				"products": [
+					{
+						"product": juiceModel.lime,
+						"quantity": 2
+					},
+					{
+						"product": liqueurModel.cointreau,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.tequila,
+						"quantity": 2
+					}
+				],
+				"recipe": "Протрите край бокала долькой лайма, переверните его в тарелку с солью и покрутите в ней бокал, чтобы соль осталась на краях. Смешайте текилу, куантро и сок лайма в шейкре для коктейлей и процедите его в подготовленый бокал, украшеный долькой лайма."
+			},
+			{
+				"name": "Текиловый рассвет",
+				"products": [
+					{
+						"product": juiceModel.orange,
+						"quantity": ""
+					},
+					{
+						"product": alcoholModel.tequila,
+						"quantity": 1
+					},
+					{
+						"product": syrupModel.grenadine,
+						"quantity": 2
+					}
+				],
+				"recipe": "Налейте ..."
+			}
+		];
+
+		(function() {
+			"use strict";
+
+			angular
+				.module(MODULE_NAME, [])
+				.controller("MainController", MainController)
+			;
+
+			MainController.$inject = ["$scope"];
+			function MainController($scope) {
+				$scope.coctailsModel = coctailsModel;
+				$scope.test = 1;
+			}
+		})();
+	</script>
+</body>
+</html>
