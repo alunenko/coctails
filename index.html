@@ -10,8 +10,8 @@
 
 	<div ng-controller="MainController"
 		 class="container">
-		<h1>Модель данных {{ test }}</h1>
-		<pre>{{ coctailsModel }}</pre>
+		<h1>Модель данных</h1>
+		<h2 ng-model="test" ng-bind="test">{{ test }}</h2>
 
 		<div class="form-group">
 			<input type="text" class="form-control" id="search" placeholder="Поиск">
@@ -31,14 +31,15 @@
 						<input type="text">
 					</th>
 					<th>
-						<input ng-model="search.$"
+						<input ng-model="searchModel"
+							   ng-keyup="searchMethod()"
 							   type="text">
 					</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="(key1, value1) in coctailsModel | filter:search:strict track by $index">
+				<tr ng-repeat="(key1, value1) in coctailsModel track by $index">
 					<th scope="row">{{ $index+1 }}</th>
 					<td>{{ coctailsModel[$index].name }}</td>
 					<td>
@@ -105,6 +106,7 @@
 				"recipe": "Налейте ..."
 			}
 		];
+		
 
 		(function() {
 			"use strict";
@@ -114,10 +116,42 @@
 				.controller("MainController", MainController)
 			;
 
-			MainController.$inject = ["$scope"];
-			function MainController($scope) {
+			MainController.$inject = ["$scope", "$filter"];
+			function MainController($scope, $filter) {
 				$scope.coctailsModel = coctailsModel;
-				$scope.test = 1;
+				$scope.test = "ttt";
+
+				$scope.searchMethod = searchMethod;
+
+				function searchMethod() {
+					var searchParams = [];
+					searchParams = $scope.searchModel.trim().split(" ");
+					searchSubString(searchParams);
+				}
+
+				function searchSubString(params) {
+					var coctailsModelLength = coctailsModel.length;
+					var paramsLength = params.length;
+					var res = [];
+
+					for(var i = 0; i < coctailsModelLength; i++) {debugger;
+						var productLength = coctailsModel[i].products.length;
+						for(var j = 0; j < productLength; j++) {
+							var a = false;
+							for(var z = 0; z < paramsLength; z++) {
+								if(coctailsModel[i].products[j].product.indexOf(params[z]) !== -1) {
+									res.push(coctailsModel[i]);
+									a = true;
+								}
+							}
+
+							if (a) { break; }
+						}
+					}
+
+					$scope.coctailsModel = $filter('filter')(res);
+					console.log($scope.coctailsModel);
+				}
 			}
 		})();
 	</script>
