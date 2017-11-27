@@ -10,12 +10,10 @@
 
 	<div ng-controller="MainController"
 		 class="container">
-		<h1>Модель данных</h1>
-		<h2 ng-model="test" ng-bind="test">{{ test }}</h2>
 
-		<div class="form-group">
+		<!-- <div class="form-group"> TODO: future feature
 			<input type="text" class="form-control" id="search" placeholder="Поиск">
-		</div>
+		</div> -->
 
 		<table class="table table-striped">
 			<thead class="thead-dark">
@@ -28,7 +26,7 @@
 				<tr>
 					<th></th>
 					<th>
-						<input type="text">
+						<!-- <input type="text"> TODO: future feature -->
 					</th>
 					<th>
 						<input ng-model="searchModel"
@@ -56,17 +54,48 @@
 	<script>
 		var MODULE_NAME = "coctails";
 		var alcoholModel = {
-			"tequila": "текила"
+			"tequila": "текила",
+			"rum": {
+				"white": "светлый ром",
+				"balck": "темный ром"
+			},
+			"vodka": "водка",
+			"peachSchnapps": "персиковый шнапс",
+			"gin": "джин"
 		};
 		var liqueurModel = {
-			"cointreau": "куантро"
+			"cointreau": "куантро",
+			"blueCuracao": "блю кюрасао",
+			"tiaMaria": "тиа мария",
+			"amaretto": "амаретто",
+			"tripleSec": "трипл сек"
 		};
 		var juiceModel = {
 			"orange": "апельсиновый сок",
-			"lime": "сок лайма"
+			"lime": "сок лайма",
+			"pineapple": "ананасовый сок",
+			"lemonade": "лимонад",
+			"cranberry": "клюквеный сок",
+			"lemon": "лимонный сок"
 		};
 		var syrupModel = {
-			"grenadine": "гренадин"
+			"grenadine": "гренадин",
+			"sugar": "сахарный сироп"
+		};
+		var milkModel = {
+			"cream": "сливки",
+			"coconutСream": "кокосовые сливки",
+			"milk": "молоко"
+		};
+		var wineModel = {
+			"vermouth": "вермут"
+		};
+		var bittersModel = {
+			"angostura": "агустура"
+		};
+		var sodaModel = {
+			"sprite": "спрайт",
+			"cocaCola": "кока кола"
 		};
 		var coctailsModel = [
 			{
@@ -104,6 +133,240 @@
 					}
 				],
 				"recipe": "Налейте ..."
+			},
+			{
+				"name": "Пина колада",
+				"products": [
+					{
+						"product": milkModel.cream,
+						"quantity": 1
+					},
+					{
+						"product": milkModel.coconutСream,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 2
+					},
+					{
+						"product": juiceModel.pineapple,
+						"quantity": 4
+					}
+				],
+				"recipe": "Налейте ..."
+			},
+			{
+				"name": "Голубая лагуна",
+				"products": [
+					{
+						"product": juiceModel.lemonade,
+						"quantity": ""
+					},
+					{
+						"product": liqueurModel.blueCuracao,
+						"quantity": 2
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 2
+					}
+				],
+				"recipe": "Налейте ..."
+			},
+			{
+				"name": "Космополитан",
+				"products": [
+					{
+						"product": juiceModel.cranberry,
+						"quantity": 1
+					},
+					{
+						"product": juiceModel.lime,
+						"quantity": 0.5
+					},
+					{
+						"product": liqueurModel.cointreau,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 2
+					}
+				],
+				"recipe": "Налейте ..."
+			},
+			{
+				"name": "Ву ву",
+				"products": [
+					{
+						"product": juiceModel.cranberry,
+						"quantity": ""
+					},
+					{
+						"product": alcoholModel.peachSchnapps,
+						"quantity": 2
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 2
+					}
+				],
+				"recipe": "Налейте ..."
+			},
+			{
+				"name": "Кричащий оргазм",
+				"products": [
+					{
+						"product": milkModel.milk,
+						"quantity": 3
+					},
+					{
+						"product": liqueurModel.tiaMaria,
+						"quantity": 1
+					},
+					{
+						"product": liqueurModel.amaretto,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 1
+					}
+				],
+				"recipe": "Налейте ..."
+			},
+			{
+				"name": "Мартини",
+				"products": [
+					{
+						"product": wineModel.vermouth,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.gin,
+						"quantity": 3
+					}
+				],
+				"recipe": "Налейте ..."
+			},
+			{
+				"name": "Кислый амаретто",
+				"products": [
+					{
+						"product": juiceModel.lemon,
+						"quantity": 1.5
+					},
+					{
+						"product": syrupModel.sugar,
+						"quantity": 2
+					},
+					{
+						"product": liqueurModel.amaretto,
+						"quantity": 2
+					}
+				],
+				"recipe": "Налейте ..."
+			},
+			{
+				"name": "Мохито",
+				"products": [
+					{
+						"product": bittersModel.angostura,
+						"quantity": 3
+					},
+					{
+						"product": syrupModel.sugar,
+						"quantity": 1
+					},
+					{
+						"product": sodaModel.sprite,
+						"quantity": ""
+					},
+					{
+						"product": juiceModel.lime,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 2
+					}
+				],
+				"recipe": "Налейте ..."
+			},
+			{
+				"name": "Секс на пляже",
+				"products": [
+					{
+						"product": juiceModel.cranberry,
+						"quantity": 3
+					},
+					{
+						"product": juiceModel.orange,
+						"quantity": 3
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 2
+					},
+					{
+						"product": alcoholModel.peachSchnapps,
+						"quantity": 1
+					}
+				],
+				"recipe": "Налейте ..."
+			},
+			{
+				"name": "Черный русский",
+				"products": [
+					{
+						"product": sodaModel.cocaCola,
+						"quantity": 1
+					},
+					{
+						"product": milkModel.milk,
+						"quantity": 1
+					},
+					{
+						"product": liqueurModel.tiaMaria,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 2
+					}
+				],
+				"recipe": "Налейте ..."
+			},
+			{
+				"name": "Лонг Айленд Айс Ти",
+				"products": [
+					{
+						"product": sodaModel.cocaCola,
+						"quantity": 1
+					},
+					{
+						"product": liqueurModel.tripleSec,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.tequila,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.gin,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 1
+					}
+				],
+				"recipe": "Налейте ..."
 			}
 		];
 		
@@ -134,7 +397,7 @@
 					var paramsLength = params.length;
 					var res = [];
 
-					for(var i = 0; i < coctailsModelLength; i++) {debugger;
+					for(var i = 0; i < coctailsModelLength; i++) {
 						var productLength = coctailsModel[i].products.length;
 						for(var j = 0; j < productLength; j++) {
 							var a = false;
