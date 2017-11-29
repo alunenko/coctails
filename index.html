@@ -21,6 +21,7 @@
 					<th scope="col">#</th>
 					<th scope="col">Название</th>
 					<th scope="col">Состав</th>
+					<th scope="col">Тип бокала</th>
 					<th scope="col">Рецепт</th>
 				</tr>
 				<tr>
@@ -36,6 +37,7 @@
 							   title="Можно указывать несколько разделяя их через пробел">
 					</th>
 					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -45,6 +47,7 @@
 					<td>
 						<p ng-repeat="(key2, value2) in coctailsModel[$index].products track by $index"><span>{{ value2.quantity }}</span> <span>{{ value2.product }}</span></p>
 					</td>
+					<td>не заполнено</td>
 					<td class="text-justify">{{ coctailsModel[$index].recipe }}</td>
 				</tr>
 			</tbody>
@@ -121,6 +124,19 @@
 			"worcestershire": "вустерширский соус",
 			"tabasco": "соус табаско",
 			"sparklingWater": "газированая вода"
+		};
+		var glassModel = {
+			"roсks": "рокс (также похожи: олд фешн)",
+			"flute": "флюте",
+			"champagneCoupe": "champagne coupe"
+			"haighball": "хайбол (также похожи: колинс / зомби)",
+			"shot": "шот",
+			"martini": "мартинка",
+			"margarita": "маргарита",
+			"brandySnifter": "коньячный бокал",
+			"hurricane": "ураган",
+			"milkshake": "бокал для молочных коктейлей",
+			"irishCoffee": "бокал для ирландского кофе (для горячих коктейлей)"
 		};
 		var coctailsModel = [
 			{
