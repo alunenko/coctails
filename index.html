@@ -31,7 +31,9 @@
 					<th>
 						<input ng-model="searchModel"
 							   ng-keyup="searchMethod()"
-							   type="text">
+							   type="text"
+							   placeholder="Поиск по продуктам"
+							   title="Можно указывать несколько разделяя их через пробел">
 					</th>
 					<th></th>
 				</tr>
@@ -43,7 +45,7 @@
 					<td>
 						<p ng-repeat="(key2, value2) in coctailsModel[$index].products track by $index"><span>{{ value2.quantity }}</span> <span>{{ value2.product }}</span></p>
 					</td>
-					<td>{{ coctailsModel[$index].recipe }}</td>
+					<td class="text-justify">{{ coctailsModel[$index].recipe }}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -57,18 +59,26 @@
 			"tequila": "текила",
 			"rum": {
 				"white": "светлый ром",
-				"balck": "темный ром"
+				"balck": "темный ром",
+				"coconut": "кокосовый ром",
+				"gold": "золотой ром"
 			},
 			"vodka": "водка",
 			"peachSchnapps": "персиковый шнапс",
-			"gin": "джин"
+			"gin": "джин",
+			"burbon": "бурбон (производимый в США из кукурузы золотистого цвета)"
 		};
 		var liqueurModel = {
 			"cointreau": "куантро",
 			"blueCuracao": "блю кюрасао",
 			"tiaMaria": "тиа мария",
 			"amaretto": "амаретто",
-			"tripleSec": "трипл сек"
+			"tripleSec": "трипл сек",
+			"cremeDeCacao": "шоколадный ликер",
+			"coffee": "кофейный ликер",
+			"lemon": "лимонный ликер",
+			"creamDeMint": "мятный ликер",
+			"amarulaCream": "сливочный ликёр"
 		};
 		var juiceModel = {
 			"orange": "апельсиновый сок",
@@ -76,7 +86,11 @@
 			"pineapple": "ананасовый сок",
 			"lemonade": "лимонад",
 			"cranberry": "клюквеный сок",
-			"lemon": "лимонный сок"
+			"lemon": "лимонный сок",
+			"peach": "персиковый сок",
+			"tomato": "томатный сок",
+			"grape": "виноградный сок",
+			"maracuja": "сок маракуйи"
 		};
 		var syrupModel = {
 			"grenadine": "гренадин",
@@ -85,10 +99,12 @@
 		var milkModel = {
 			"cream": "сливки",
 			"coconutСream": "кокосовые сливки",
-			"milk": "молоко"
+			"milk": "молоко",
+			"cream": "сливки"
 		};
 		var wineModel = {
-			"vermouth": "вермут"
+			"vermouth": "вермут",
+			"champagne": "шампанское"
 		};
 		var bittersModel = {
 			"angostura": "агустура"
@@ -96,6 +112,15 @@
 		var sodaModel = {
 			"sprite": "спрайт",
 			"cocaCola": "кока кола"
+		};
+		var brendyModel = {
+			"apricot": "абрикосовый бренди",
+			"cherry": "вишневый бренди"
+		};
+		var other = {
+			"worcestershire": "вустерширский соус",
+			"tabasco": "соус табаско",
+			"sparklingWater": "газированая вода"
 		};
 		var coctailsModel = [
 			{
@@ -376,11 +401,11 @@
 						"quantity": 1
 					},
 					{
-						"product": "бурбон", /* TODO: бренди*/
+						"product": alcoholModel.burbon,
 						"quantity": 2
 					}
 				],
-				"recipe": "не заполнено"
+				"recipe": "Смешайте бурбон и вермут в шейкере. Вылейте в стакан для коктейлей с колотым льдом. Украсьте вишенкой."
 			},
 			{
 				"name": "Май тай",
@@ -390,7 +415,7 @@
 						"quantity": "1 капля"
 					},
 					{
-						"product": "Абрикосовый бренди", /* TODO: Apricot brendy */
+						"product": brendyModel.apricot,
 						"quantity": 0.5
 					},
 					{
@@ -410,7 +435,7 @@
 						"quantity": 2
 					}
 				],
-				"recipe": "не заполнено"
+				"recipe": "Смешайте ром, апельсиновый сок, сок лайма, ананасовый сок, абрикосовый бренди с ангостурой и льдом в шейкере. Процедите в охлажденный стакан. Украсьте листиком мяты и долькой лимона."
 			},
 			{
 				"name": "Клюквеный охладитель",
@@ -432,7 +457,315 @@
 						"quantity": 1
 					}
 				],
+				"recipe": "Смешайте водку, амаретто, апельсиновый сок и клюквенный сок. Вылейте содержимое в стакан с несколькими, колотыми кубиками льда. Выдавите дольку лайма к этой смеси."
+			},
+			{
+				"name": "Беллини",
+				"products": [
+					{
+						"product": wineModel.champagne,
+						"quantity": 2
+					},
+					{
+						"product": juiceModel.peach,
+						"quantity": 1
+					}
+				],
 				"recipe": "не заполнено"
+			},
+			{
+				"name": "Кровавая мери",
+				"products": [
+					{
+						"product": juiceModel.tomato,
+						"quantity": 4
+					},
+					{
+						"product": other.worcestershire,
+						"quantity": "4 капли"
+					},
+					{
+						"product": other.tabasco,
+						"quantity": "2 капли"
+					},
+					{
+						"product": juiceModel.lemon,
+						"quantity": "2 ложки"
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 2
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "Камикадзе",
+				"products": [
+					{
+						"product": juiceModel.lemon,
+						"quantity": 0.5
+					},
+					{
+						"product": liqueurModel.cointreau,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 2
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "Багама-мама",
+				"products": [
+					{
+						"product": alcoholModel.rum.coconut,
+						"quantity": 2
+					},
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 1
+					},
+					{
+						"product": juiceModel.orange,
+						"quantity": 1
+					},
+					{
+						"product": juiceModel.pineapple,
+						"quantity": 1
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "Сингапурский слинг",
+				"products": [
+					{
+						"product": other.sparklingWater,
+						"quantity": ""
+					},
+					{
+						"product": juiceModel.lemon,
+						"quantity": 1
+					},
+					{
+						"product": syrupModel.grenadine,
+						"quantity": 1
+					},
+					{
+						"product": brendyModel.cherry,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.gin,
+						"quantity": 2
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "Дайкири",
+				"products": [
+					{
+						"product": syrupModel.sugar,
+						"quantity": 0.5
+					},
+					{
+						"product": juiceModel.lime,
+						"quantity": 0.5
+					},
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 2
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "Отвертка",
+				"products": [
+					{
+						"product": juiceModel.orange,
+						"quantity": ""
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 2
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "Морской бриз",
+				"products": [
+					{
+						"product": juiceModel.grape,
+						"quantity": 2
+					},
+					{
+						"product": juiceModel.cranberry,
+						"quantity": 4
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 2
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "Шоколадная смерть",
+				"products": [
+					{
+						"product": milkModel.milk,
+						"quantity": ""
+					},
+					{
+						"product": liqueurModel.cremeDeCacao,
+						"quantity": 1
+					},
+					{
+						"product": liqueurModel.coffee,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 2
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "Интуитивная прозорливость",
+				"products": [
+					{
+						"product": alcoholModel.peachSchnapps,
+						"quantity": 1
+					},
+					{
+						"product": liqueurModel.lemon,
+						"quantity": 1
+					},
+					{
+						"product": wineModel.champagne,
+						"quantity": 1
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "Ураган",
+				"products": [
+					{
+						"product": juiceModel.orange,
+						"quantity": 1
+					},
+					{
+						"product": syrupModel.grenadine,
+						"quantity": 0.5
+					},
+					{
+						"product": juiceModel.lime,
+						"quantity": 0.5
+					},
+					{
+						"product": juiceModel.maracuja,
+						"quantity": 2
+					},
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 3
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "Маями",
+				"products": [
+					{
+						"product": juiceModel.lemon,
+						"quantity": 1
+					},
+					{
+						"product": liqueurModel.creamDeMint,
+						"quantity": 1.5
+					},
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 2
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "P.S. Я тебя люблю",
+				"products": [
+					{
+						"product": liqueurModel.amarulaCream,
+						"quantity": 1
+					},
+					{
+						"product": milkModel.cream,
+						"quantity": 1
+					},
+					{
+						"product": liqueurModel.amaretto,
+						"quantity": 1.5
+					},
+					{
+						"product": liqueurModel.tiaMaria,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 1
+					}
+				],
+				"recipe": "не заполнено"
+			},
+			{
+				"name": "Зомби",
+				"products": [
+					{
+						"product": alcoholModel.rum.balck,
+						"quantity": "20 мл."
+					},
+					{
+						"product": alcoholModel.rum.gold,
+						"quantity": "20 мл."
+					},
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": "20 мл."
+					},
+					{
+						"product": juiceModel.lime,
+						"quantity": "20 мл."
+					},
+					{
+						"product": brendyModel.apricot,
+						"quantity": "15 мл."
+					},
+					{
+						"product": juiceModel.orange,
+						"quantity": "60 мл."
+					},
+					{
+						"product": juiceModel.pineapple,
+						"quantity": "60 мл."
+					},
+					{
+						"product": liqueurModel.angostura,
+						"quantity": "2-3 капли"
+					},
+					{
+						"product": juiceModel.maracuja,
+						"quantity": "50 мл."
+					}
+				],
+				"recipe": "Охлаждаем бокал. Наливаем в шейкер все ингредиенты и взбалтываем. Освобождаем бокал для подачи от талой воды и льда, сливаем в него содержимое шейкера. Украшаем половинкой лайма, очищенной от мякоти, и тростниковым сахаром."
 			}
 		];
 		
