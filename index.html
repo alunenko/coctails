@@ -81,7 +81,8 @@
 			"coffee": "кофейный ликер",
 			"lemon": "лимонный ликер",
 			"creamDeMint": "мятный ликер",
-			"amarulaCream": "сливочный ликёр"
+			"amarulaCream": "сливочный ликёр",
+			"malibu": "кокосовый ликер"
 		};
 		var juiceModel = {
 			"orange": "апельсиновый сок",
@@ -141,6 +142,9 @@
 				"balloon": "винный шарообразный"
 			}
 		};
+		var other = {
+			"mint": "мята"
+		}
 		var coctailsModel = [
 			{
 				"name": "Маргарита",
@@ -347,6 +351,33 @@
 				],
 				"glass": glassModel.haighball,
 				"recipe": "Размешайте в стакане несколько листиков мяты с сахарным сиропом и соком лайма. Заполните стакан кубиками льда до верху. Добавьте несколько капель ангостуры и ром.Сверху долейте соды(спрайт)/газировки. Украсьте долькой лайма."
+			},
+			{
+				"name": "Голубой Мохито",
+				"products": [
+					{
+						"product": liqueurModel.blueCuracao,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.rum.wine,
+						"quantity": 2
+					},
+					{
+						"product": other.mint,
+						"quantity": 6
+					},
+					{
+						"product": juiceModel.lime,
+						"quantity": 1
+					},
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 2
+					}
+				],
+				"glass": glassModel.haighball,
+				"recipe": "В шейкере смешайте ром, ликер, мяту, и лед. Вылейте в стакан для виски и полейте содой."
 			},
 			{
 				"name": "Секс на пляже",
@@ -815,6 +846,29 @@
 				],
 				"glass": glassModel.haighball,
 				"recipe": "Охлаждаем бокал. Наливаем в шейкер все ингредиенты и взбалтываем. Освобождаем бокал для подачи от талой воды и льда, сливаем в него содержимое шейкера. Украшаем половинкой лайма, очищенной от мякоти, и тростниковым сахаром."
+			},
+			{
+				"name": "Голубые гавайи",
+				"products": [
+					{
+						"product": juiceModel.pineapple,
+						"quantity": 3
+					},
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 1
+					},
+					{
+						"product": liqueurModel.blueCuracao,
+						"quantity": 1
+					},
+					{
+						"product": liqueurModel.malibu,
+						"quantity": 1
+					}
+				],
+				"glass": glassModel.haighball,
+				"recipe": "Вылейте все ингредиенты в бокал со льодом, перемешайте. Украсьте вишенкой."
 			}
 		];
 		
