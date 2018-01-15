@@ -62,7 +62,7 @@
 			"tequila": "текила",
 			"rum": {
 				"white": "светлый ром",
-				"balck": "темный ром",
+				"black": "темный ром",
 				"coconut": "кокосовый ром",
 				"gold": "золотой ром"
 			},
@@ -82,7 +82,8 @@
 			"lemon": "лимонный ликер",
 			"creamDeMint": "мятный ликер",
 			"amarulaCream": "сливочный ликёр",
-			"malibu": "кокосовый ликер"
+			"malibu": "кокосовый ликер",
+			"strawberry": "клубничный ликер"
 		};
 		var juiceModel = {
 			"orange": "апельсиновый сок",
@@ -94,11 +95,14 @@
 			"peach": "персиковый сок",
 			"tomato": "томатный сок",
 			"grape": "виноградный сок",
-			"maracuja": "сок маракуйи"
+			"maracuja": "сок маракуйи",
+			"grapefruit": "грейпфрутовый сок"
 		};
 		var syrupModel = {
 			"grenadine": "гренадин",
-			"sugar": "сахарный сироп"
+			"sugar": "сахарный сироп",
+			"lime": "сироп лайма",
+			"coconut": "кокосовый сироп"
 		};
 		var milkModel = {
 			"cream": "сливки",
@@ -131,7 +135,7 @@
 			"roсks": "рокс (также похожи: олд фешн)",
 			"flute": "флюте",
 			"champagneCoupe": "champagne coupe",
-			"haighball": "хайбол (также похожи: колинс / зомби)",
+			"haighball": "хайбол (также похожи: колинс / зомби / тумблер)",
 			"shot": "шот",
 			"martini": "мартинка",
 			"margarita": "маргарита",
@@ -516,7 +520,7 @@
 						"quantity": 0.5
 					},
 					{
-						"product": alcoholModel.rum.balck,
+						"product": alcoholModel.rum.black,
 						"quantity": 2
 					}
 				],
@@ -677,6 +681,37 @@
 				"recipe": "Смешайте в шейкере сахарный сироп, сок лайма и ром со льдом. Украсьте долькой лайма."
 			},
 			{
+				"name": "Дайкири (клубничный). Daiquiri (strawberry).",
+				"products": [
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 5
+					},
+					{
+						"product": liqueurModel.strawberry,
+						"quantity": 1
+					},
+					{
+						"product": juiceModel.lemon,
+						"quantity": 2
+					},
+					{
+						"product": "клубника",
+						"quantity": "2 шт."
+					},
+					{
+						"product": "сахарная пудра",
+						"quantity": "1 чайная ложка"
+					},
+					{
+						"product": "лед",
+						"quantity": "~100-150 гр."
+					}
+				],
+				"glass": glassModel.haighball,
+				"recipe": "Фруктовый, освежающий. Все компоненты смешать в блендере и процедите в бокал."
+			},
+			{
 				"name": "Отвертка",
 				"products": [
 					{
@@ -829,7 +864,7 @@
 				"name": "Зомби",
 				"products": [
 					{
-						"product": alcoholModel.rum.balck,
+						"product": alcoholModel.rum.black,
 						"quantity": "20 мл."
 					},
 					{
@@ -890,6 +925,132 @@
 				],
 				"glass": glassModel.haighball,
 				"recipe": "Вылейте все ингредиенты в бокал со льодом, перемешайте. Украсьте вишенкой."
+			},
+			{
+				"name": "Фокстрот. Foxtrott.",
+				"products": [
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 4
+					},
+					{
+						"product": liqueurModel.cointreau,
+						"quantity": 1
+					},
+					{
+						"product": juiceModel.lemon,
+						"quantity": 2
+					}
+				],
+				"glass": glassModel.roсks,
+				"recipe": "Фруктово-терпкий коктейль для жаркой погоды. Все компоненты, вместе с кубиками льда встряхните в шейкере и процедите в бокал."
+			},
+			{
+				"name": "Маленький цветок. Petite fleur.",
+				"products": [
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 1
+					},
+					{
+						"product": liqueurModel.cointreau,
+						"quantity": 1
+					},
+					{
+						"product": juiceModel.grapefruit,
+						"quantity": 1
+					}
+				],
+				"glass": glassModel.shot,
+				"recipe": "Фруктовый. Все компоненты встряхните в шейкере и процедите в бокал."
+			},
+			{
+				"name": "Робсон. Robson.",
+				"products": [
+					{
+						"product": alcoholModel.rum.white + " (ИЛИ)",
+						"quantity": 3
+					},
+					{
+						"product": alcoholModel.rum.black + " (ИЛИ)",
+						"quantity": 3
+					},
+					{
+						"product": syrupModel.grenadine,
+						"quantity": 1.5
+					},
+					{
+						"product": juiceModel.orange,
+						"quantity": 1.5
+					},
+					{
+						"product": juiceModel.lemon,
+						"quantity": 1
+					}
+				],
+				"glass": glassModel.roсks,
+				"recipe": "Полусухой коктейль. Все компоненты встряхните в шейкере и процедите в бокал."
+			},
+			{
+				"name": "Буравчик с ромом",
+				"products": [
+					{
+						"product": alcoholModel.rum.black,
+						"quantity": 2
+					},
+					{
+						"product": syrupModel.lime,
+						"quantity": 1
+					},
+					{
+						"product": "лайм",
+						"quantity": "1/4"
+					}
+				],
+				"glass": glassModel.roсks,
+				"recipe": "Все компоненты со льдом перемешайте в бокале."
+			},
+			{
+				"name": "Коралловое море",
+				"products": [
+					{
+						"product": alcoholModel.rum.white,
+						"quantity": 3
+					},
+					{
+						"product": liqueurModel.blueCuracao,
+						"quantity": 2
+					},
+					{
+						"product": syrupModel.coconut,
+						"quantity": 5
+					},
+					{
+						"product": juiceModel.pineapple,
+						"quantity": 5
+					},
+					{
+						"product": milkModel.cream,
+						"quantity": 1
+					}
+				],
+				"glass": glassModel.haighball,
+				"recipe": "Все компоненты встряхните в шейкере. Вылейте содержимое из шейкера в бокал со льдом. Украсьте 1/4 кружка ананаса, вишенкой и веточкой мяты."
+			},
+			{
+				"name": "Айс пик",
+				"products": [
+					{
+						"product": "чай",
+						"quantity": 7
+					},
+					{
+						"product": alcoholModel.vodka,
+						"quantity": 1
+					}
+				],
+				"glass": glassModel.haighball,
+				"recipe": "Все компоненты перемешайте в шейкере. Вылейте содержимое из шейкера в бокал со льдом. Украсьте долькой лимона."
 			}
 		];
 		
