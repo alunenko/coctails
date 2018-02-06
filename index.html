@@ -69,7 +69,8 @@
 			"vodka": "водка",
 			"peachSchnapps": "персиковый шнапс",
 			"gin": "джин",
-			"burbon": "бурбон (производимый в США из кукурузы золотистого цвета)"
+			"burbon": "бурбон (производимый в США из кукурузы золотистого цвета)",
+			"whiskey": "виски"
 		};
 		var liqueurModel = {
 			"cointreau": "куантро",
@@ -83,7 +84,9 @@
 			"creamDeMint": "мятный ликер",
 			"amarulaCream": "сливочный ликёр",
 			"malibu": "кокосовый ликер",
-			"strawberry": "клубничный ликер"
+			"strawberry": "клубничный ликер",
+			"kahlua": "калуа (мексиканський кавовий лікер)",
+			"cherry": "вишневый ликер"
 		};
 		var juiceModel = {
 			"orange": "апельсиновый сок",
@@ -107,8 +110,7 @@
 		var milkModel = {
 			"cream": "сливки",
 			"coconutСream": "кокосовые сливки",
-			"milk": "молоко",
-			"cream": "сливки"
+			"milk": "молоко"
 		};
 		var wineModel = {
 			"vermouth": "вермут",
@@ -119,9 +121,11 @@
 		};
 		var sodaModel = {
 			"sprite": "спрайт",
-			"cocaCola": "кока кола"
+			"cocaCola": "кока кола",
+			"tonic": "тоник"
 		};
 		var brendyModel = {
+			"brendy": "бренди",
 			"apricot": "абрикосовый бренди",
 			"cherry": "вишневый бренди"
 		};
@@ -138,7 +142,10 @@
 			"haighball": "хайбол (также похожи: колинс / зомби / тумблер)",
 			"shot": "шот",
 			"martini": "мартинка",
-			"margarita": "маргарита",
+			"margarita": {
+			    "saucer": "маргарита (блюдце)",
+			    "welled": "маргарита"
+			},
 			"brandySnifter": "коньячный бокал",
 			"hurricane": "ураган",
 			"milkshake": "бокал для молочных коктейлей",
@@ -1051,7 +1058,193 @@
 				],
 				"glass": glassModel.haighball,
 				"recipe": "Все компоненты перемешайте в шейкере. Вылейте содержимое из шейкера в бокал со льдом. Украсьте долькой лимона."
-			}
+			},
+			{
+				"name": "Александр",
+				"products": [
+					{
+						"product": brendyModel.brendy,
+						"quantity": 1
+					},
+					{
+						"product": liqueurModel.cremeDeCacao,
+						"quantity": 1
+					},
+                    {
+                        "product": milkModel.cream,
+                        "quantity": 1
+                    }
+				],
+				"glass": glassModel.margarita.saucer,
+				"recipe": "Все компоненты перемешайте в шейкере. Вылейте содержимое из шейкера в бокал."
+			},
+            {
+                "name": "Белый русский",
+                "products": [
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 5
+                    },
+                    {
+                        "product": liqueurModel.kahlua,
+                        "quantity": 3
+                    },
+                    {
+                        "product": milkModel.cream,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.roсks,
+                "recipe": "Налить в наполненный льдом в бокал, дополнить чайной ложкой взбитых сливок и не размешивать."
+            },
+            {
+                "name": "Белый кубинец",
+                "products": [
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 5
+                    },
+                    {
+                        "product": liqueurModel.kahlua,
+                        "quantity": 3
+                    },
+                    {
+                        "product": milkModel.cream,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.roсks,
+                "recipe": "Налить в наполненный льдом в бокал, дополнить чайной ложкой взбитых сливок и не размешивать."
+            },
+            {
+                "name": "Белый мусор",
+                "products": [
+                    {
+                        "product": alcoholModel.whiskey,
+                        "quantity": 5
+                    },
+                    {
+                        "product": liqueurModel.kahlua,
+                        "quantity": 3
+                    },
+                    {
+                        "product": milkModel.cream,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.roсks,
+                "recipe": "Налить в наполненный льдом в бокал, дополнить чайной ложкой взбитых сливок и не размешивать."
+            },
+            {
+                "name": "Голубой русский",
+                "products": [
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 5
+                    },
+                    {
+                        "product": liqueurModel.cherry,
+                        "quantity": 3
+                    },
+                    {
+                        "product": milkModel.cream,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.roсks,
+                "recipe": "Налить в наполненный льдом в бокал, дополнить чайной ложкой взбитых сливок и не размешивать."
+            },
+            {
+                "name": "Грязный русский",
+                "products": [
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 5
+                    },
+                    {
+                        "product": liqueurModel.kahlua,
+                        "quantity": 3
+                    },
+                    {
+                        "product": "шоколадное молоко",
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.roсks,
+                "recipe": "Налить в наполненный льдом в бокал, дополнить чайной ложкой взбитых сливок и не размешивать."
+            },
+            {
+                "name": "Чёрный русский",
+                "products": [
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 5
+                    },
+                    {
+                        "product": liqueurModel.kahlua,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.roсks,
+                "recipe": "Стакан наполняют пищевым льдом, затем наливают водку, кофейный ликёр и тщательно перемешивают со льдом."
+            },
+            {
+                "name": "Джин-тоник",
+                "products": [
+                    {
+                        "product": alcoholModel.gin,
+                        "quantity": 1
+                    },
+                    {
+                        "product": sodaModel.tonic,
+                        "quantity": 3
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Влить ингридиенты в бокал, перемешивают со льдом. Добавить дольку лайма или лимона."
+            },
+            {
+                "name": "Джон Коллинз",
+                "products": [
+                    {
+                        "product": alcoholModel.gin,
+                        "quantity": 9
+                    },
+                    {
+                        "product": juiceModel.lemon,
+                        "quantity": 6
+                    },
+                    {
+                        "product": syrupModel.sugar,
+                        "quantity": 3
+                    },
+                    {
+                        "product": other.sparklingWater,
+                        "quantity": 12
+                    },
+                    {
+                        "product": "ангостуры",
+                        "quantity": "3 капли"
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Смешать в шейкере или в стакане со льдом. Подаётся с гарниром из дольки лайма и коктейльной вишни."
+            },
+            {
+                "name": "Ром кола",
+                "products": [
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 4
+                    },
+                    {
+                        "product": sodaModel.cocaCola,
+                        "quantity": ""
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Наполни хайбол кубиками льда доверху. Добавь лаймовый сок и белый ром. Долей колу доверху и аккуратно размешай коктейльной ложкой. Укрась 2 кружочками лайма."
+            }
 		];
 		
 
