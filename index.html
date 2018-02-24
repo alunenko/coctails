@@ -1,1083 +1,1103 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="coctails">
 <head>
-	<meta charset="UTF-8">
-	<title>Coctails</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Coctails</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
 </head>
 <body>
 
-	<div ng-controller="MainController"
-		 class="container">
+    <div ng-controller="MainController"
+         class="container">
 
-		<!-- <div class="form-group"> TODO: future feature
-			<input type="text" class="form-control" id="search" placeholder="Поиск">
-		</div> -->
+        <!-- <div class="form-group"> TODO: future feature
+            <input type="text" class="form-control" id="search" placeholder="Поиск">
+        </div> -->
 
-		<table class="table table-striped">
-			<thead class="thead-dark">
-				<tr>
-					<th scope="col">#</th>
-					<th scope="col">Название</th>
-					<th scope="col">Состав</th>
-					<th scope="col">Тип бокала</th>
-					<th scope="col">Рецепт</th>
-				</tr>
-				<tr>
-					<th></th>
-					<th>
-						<!-- <input type="text"> TODO: future feature -->
-					</th>
-					<th>
-						<input ng-model="searchModel"
-							   ng-keyup="searchMethod()"
-							   type="text"
-							   placeholder="Поиск по продуктам"
-							   title="Можно указывать несколько разделяя их через пробел">
-					</th>
-					<th></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="(key1, value1) in coctailsModel track by $index">
-					<th scope="row">{{ $index+1 }}</th>
-					<td>{{ coctailsModel[$index].name }}</td>
-					<td>
-						<p ng-repeat="(key2, value2) in coctailsModel[$index].products track by $index"><span>{{ value2.quantity }}</span> <span>{{ value2.product }}</span></p>
-					</td>
-					<td>{{ coctailsModel[$index].glass || "не заполнено" }}</td>
-					<td class="text-justify">{{ coctailsModel[$index].recipe || "не заполнено" }}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Состав</th>
+                    <th scope="col">Тип бокала</th>
+                    <th scope="col">Рецепт</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>
+                        <!-- <input type="text"> TODO: future feature -->
+                    </th>
+                    <th>
+                        <input ng-model="searchModel"
+                               ng-keyup="searchMethod()"
+                               type="text"
+                               placeholder="Поиск по продуктам"
+                               title="Можно указывать несколько разделяя их через пробел">
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(key1, value1) in coctailsModel track by $index">
+                    <th scope="row">{{ $index+1 }}</th>
+                    <td>{{ coctailsModel[$index].name }}</td>
+                    <td>
+                        <p ng-repeat="(key2, value2) in coctailsModel[$index].products track by $index"><span>{{ value2.quantity }}</span> <span>{{ value2.product }}</span></p>
+                    </td>
+                    <td>{{ coctailsModel[$index].glass || "не заполнено" }}</td>
+                    <td class="text-justify">{{ coctailsModel[$index].recipe || "не заполнено" }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.min.js"></script>
-	<script>
-		var MODULE_NAME = "coctails";
-		var alcoholModel = {
-			"tequila": "текила",
-			"rum": {
-				"white": "светлый ром",
-				"black": "темный ром",
-				"coconut": "кокосовый ром",
-				"gold": "золотой ром"
-			},
-			"vodka": "водка",
-			"peachSchnapps": "персиковый шнапс",
-			"gin": "джин",
-			"burbon": "бурбон (производимый в США из кукурузы золотистого цвета)",
-			"whiskey": "виски"
-		};
-		var liqueurModel = {
-			"cointreau": "куантро",
-			"blueCuracao": "блю кюрасао",
-			"tiaMaria": "тиа мария",
-			"amaretto": "амаретто",
-			"tripleSec": "трипл сек",
-			"cremeDeCacao": "шоколадный ликер",
-			"coffee": "кофейный ликер",
-			"lemon": "лимонный ликер",
-			"creamDeMint": "мятный ликер",
-			"amarulaCream": "сливочный ликёр",
-			"malibu": "кокосовый ликер",
-			"strawberry": "клубничный ликер",
-			"kahlua": "калуа (мексиканський кавовий лікер)",
-			"cherry": "вишневый ликер"
-		};
-		var juiceModel = {
-			"orange": "апельсиновый сок",
-			"lime": "сок лайма",
-			"pineapple": "ананасовый сок",
-			"lemonade": "лимонад",
-			"cranberry": "клюквеный сок",
-			"lemon": "лимонный сок",
-			"peach": "персиковый сок",
-			"tomato": "томатный сок",
-			"grape": "виноградный сок",
-			"maracuja": "сок маракуйи",
-			"grapefruit": "грейпфрутовый сок"
-		};
-		var syrupModel = {
-			"grenadine": "гренадин",
-			"sugar": "сахарный сироп",
-			"lime": "сироп лайма",
-			"coconut": "кокосовый сироп"
-		};
-		var milkModel = {
-			"cream": "сливки",
-			"coconutСream": "кокосовые сливки",
-			"milk": "молоко"
-		};
-		var wineModel = {
-			"vermouth": "вермут",
-			"champagne": "шампанское"
-		};
-		var bittersModel = {
-			"angostura": "агустура"
-		};
-		var sodaModel = {
-			"sprite": "спрайт",
-			"cocaCola": "кока кола",
-			"tonic": "тоник"
-		};
-		var brendyModel = {
-			"brendy": "бренди",
-			"apricot": "абрикосовый бренди",
-			"cherry": "вишневый бренди"
-		};
-		var other = {
-			"worcestershire": "вустерширский соус",
-			"tabasco": "соус табаско",
-			"sparklingWater": "газированая вода",
-			"mint": "мята"
-		};
-		var glassModel = {
-			"roсks": "рокс (также похожи: олд фешн)",
-			"flute": "флюте",
-			"champagneCoupe": "champagne coupe",
-			"haighball": "хайбол (также похожи: колинс / зомби / тумблер)",
-			"shot": "шот",
-			"martini": "мартинка",
-			"margarita": {
-			    "saucer": "маргарита (блюдце)",
-			    "welled": "маргарита"
-			},
-			"brandySnifter": "коньячный бокал",
-			"hurricane": "ураган",
-			"milkshake": "бокал для молочных коктейлей",
-			"irishCoffee": "бокал для ирландского кофе (для горячих коктейлей)",
-			"wine": {
-				"balloon": "винный шарообразный"
-			}
-		};
-		var coctailsModel = [
-			{
-				"name": "Маргарита",
-				"products": [
-					{
-						"product": juiceModel.lime,
-						"quantity": 2
-					},
-					{
-						"product": liqueurModel.cointreau,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.tequila,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.martini,
-				"recipe": "Протрите край бокала долькой лайма, переверните его в тарелку с солью и покрутите в ней бокал, чтобы соль осталась на краях. Смешайте текилу, куантро и сок лайма в шейкре и процедите его в подготовленый бокал, украшеный долькой лайма."
-			},
-			{
-				"name": "Текиловый рассвет",
-				"products": [
-					{
-						"product": juiceModel.orange,
-						"quantity": ""
-					},
-					{
-						"product": alcoholModel.tequila,
-						"quantity": 1
-					},
-					{
-						"product": syrupModel.grenadine,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Наполните до половины стакан кубиками льда и налейте текилы. Добавьте апельсинового сока почти до краев стакана и добавьте несколько капель гренадина, который опускаясь на дно стакана создаст эффект заката солнца. В качестве украшения можете добавить кольцо/дольку апельсина и вишенкой."
-			},
-			{
-				"name": "Пина колада",
-				"products": [
-					{
-						"product": milkModel.cream,
-						"quantity": 1
-					},
-					{
-						"product": milkModel.coconutСream,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 2
-					},
-					{
-						"product": juiceModel.pineapple,
-						"quantity": 4
-					}
-				],
-				"glass": glassModel.hurricane,
-				"recipe": "Смешайте и потрусите вместе с белым ромом ананасовый сок, сливки и кокосовые сливки с 3-5 кубиками колотого льда, взболтайте. Вылейте смесь в бокал и украсьте долькой ананаса и коктейльным зонтиком."
-			},
-			{
-				"name": "Голубая лагуна",
-				"products": [
-					{
-						"product": juiceModel.lemonade,
-						"quantity": ""
-					},
-					{
-						"product": liqueurModel.blueCuracao,
-						"quantity": 2
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Налейте водки в стакан до середины наполеный колотым льдом. Медленно, сверху наливайте блю кюрасао и потом заполните лимонадом. Украсьте долькой лимона или апельсина."
-			},
-			{
-				"name": "Космополитан",
-				"products": [
-					{
-						"product": juiceModel.cranberry,
-						"quantity": 1
-					},
-					{
-						"product": juiceModel.lime,
-						"quantity": 0.5
-					},
-					{
-						"product": liqueurModel.cointreau,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.martini,
-				"recipe": "Перемешайте в шейкре вместе водку, куантро, и сок лайма и клюквенный в коктейльном миксере с двумя кубиками льда."
-			},
-			{
-				"name": "Космополитан [2]",
-				"products": [
-					{
-						"product": juiceModel.cranberry,
-						"quantity": 3
-					},
-					{
-						"product": juiceModel.lime,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.cointreau,
-						"quantity": 1.5
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 4
-					}
-				],
-				"glass": glassModel.martini,
-				"recipe": "Перемешайте в шейкре вместе водку, куантро, и сок лайма и клюквенный в коктейльном миксере с двумя кубиками льда."
-			},
-			{
-				"name": "Ву ву",
-				"products": [
-					{
-						"product": juiceModel.cranberry,
-						"quantity": ""
-					},
-					{
-						"product": alcoholModel.peachSchnapps,
-						"quantity": 2
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Наполните стакан до половины льдом. Добавьте водки и персикового шнапса. Сверху долейте клюквиного сока. Перемешайте, украсьте долькой апельсина или лимона."
-			},
-			{
-				"name": "Кричащий оргазм",
-				"products": [
-					{
-						"product": milkModel.milk,
-						"quantity": 3
-					},
-					{
-						"product": liqueurModel.tiaMaria,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.amaretto,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.wine.balloon,
-				"recipe": "Потрите край бокала долькой лайма, переверните его в тарелку с солью и покрутите в ней бокал, чтобы соль осталась на краях. Смешайте текилу, куантро и сок лайма в шейкре и процедите его в подготовленый бокал, украшеный долькой лайма."
-			},
-			{
-				"name": "Мартини",
-				"products": [
-					{
-						"product": wineModel.vermouth,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.gin,
-						"quantity": 3
-					}
-				],
-				"glass": glassModel.martini,
-				"recipe": "Потрясите вместе с джин и вермут в шейкре вместе с 2-3 кубиками льда. Потом вылейте содержимое в охлажденный бокал для коктейлей. Украсьте закрученной полоской из кожуры лимона, добавьте наколотую на шпашку оливку."
-			},
-			{
-				"name": "Кислый амаретто",
-				"products": [
-					{
-						"product": juiceModel.lemon,
-						"quantity": 1.5
-					},
-					{
-						"product": syrupModel.sugar,
-						"quantity": 2
-					},
-					{
-						"product": liqueurModel.amaretto,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.shot,
-				"recipe": "Потрусите амаретто, сахарный сироп и сок лимона в шейкре наполеный на половину кубиками льда. Вылейте в стакан и украсьте вишенкой и долькой апельсина."
-			},
-			{
-				"name": "Мохито",
-				"products": [
-					{
-						"product": bittersModel.angostura,
-						"quantity": "три капли"
-					},
-					{
-						"product": syrupModel.sugar,
-						"quantity": 1
-					},
-					{
-						"product": sodaModel.sprite,
-						"quantity": ""
-					},
-					{
-						"product": juiceModel.lime,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Размешайте в стакане несколько листиков мяты с сахарным сиропом и соком лайма. Заполните стакан кубиками льда до верху. Добавьте несколько капель ангостуры и ром.Сверху долейте соды(спрайт)/газировки. Украсьте долькой лайма."
-			},
-			{
-				"name": "Голубой Мохито",
-				"products": [
-					{
-						"product": liqueurModel.blueCuracao,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 2
-					},
-					{
-						"product": other.mint,
-						"quantity": 6
-					},
-					{
-						"product": juiceModel.lime,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "В шейкере смешайте ром, ликер, мяту, и лед. Вылейте в стакан для виски и полейте содой."
-			},
-			{
-				"name": "Секс на пляже",
-				"products": [
-					{
-						"product": juiceModel.cranberry,
-						"quantity": 3
-					},
-					{
-						"product": juiceModel.orange,
-						"quantity": 3
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 2
-					},
-					{
-						"product": alcoholModel.peachSchnapps,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Взболтайте водку, персиковый шнапс с 3-5 кубиками льда в шейкере. Вылейте содержимое в подготовленый стакан и долейте до верху клюквенный и апельсиновый сок. Украсьте долькой апельсина и несколько вишен."
-			},
-			{
-				"name": "Черный русский",
-				"products": [
-					{
-						"product": sodaModel.cocaCola,
-						"quantity": 1
-					},
-					{
-						"product": milkModel.milk,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.tiaMaria,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.roсks,
-				"recipe": "Взболтайте водку, ликер тиа мария и молоко в шейкере. Наполните стакан кубиками льда и добавьте содержимым из шейкера. Долейте до верху колы."
-			},
-			{
-				"name": "Лонг Айленд Айс Ти",
-				"products": [
-					{
-						"product": sodaModel.cocaCola,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.tripleSec,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.tequila,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.gin,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Взболтайте вместе водку, джин, ром, ликер трипл сек, текилу с 2-3 кубиками льда. Процедите смесь в подготовленый стакан. Украсьте стакан долькой лимона и несколькими листиками мяты."
-			},
-			{
-				"name": "Манхетнтен",
-				"products": [
-					{
-						"product": wineModel.vermouth,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.burbon,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.martini,
-				"recipe": "Смешайте бурбон и вермут в шейкере. Вылейте в стакан для коктейлей с колотым льдом. Украсьте вишенкой."
-			},
-			{
-				"name": "Май тай",
-				"products": [
-					{
-						"product": bittersModel.angostura,
-						"quantity": "1 капля"
-					},
-					{
-						"product": brendyModel.apricot,
-						"quantity": 0.5
-					},
-					{
-						"product": juiceModel.pineapple,
-						"quantity": 0.5
-					},
-					{
-						"product": juiceModel.lime,
-						"quantity": 0.5
-					},
-					{
-						"product": juiceModel.orange,
-						"quantity": 0.5
-					},
-					{
-						"product": alcoholModel.rum.black,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.roсks,
-				"recipe": "Смешайте ром, апельсиновый сок, сок лайма, ананасовый сок, абрикосовый бренди с ангостурой и льдом в шейкере. Процедите в охлажденный стакан. Украсьте листиком мяты и долькой лимона."
-			},
-			{
-				"name": "Клюквеный охладитель",
-				"products": [
-					{
-						"product": juiceModel.cranberry,
-						"quantity": 3
-					},
-					{
-						"product": juiceModel.orange,
-						"quantity": 2
-					},
-					{
-						"product": liqueurModel.amaretto,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Смешайте водку, амаретто, апельсиновый сок и клюквенный сок. Вылейте содержимое в стакан с несколькими, колотыми кубиками льда. Выдавите дольку лайма к этой смеси."
-			},
-			{
-				"name": "Беллини",
-				"products": [
-					{
-						"product": wineModel.champagne,
-						"quantity": 2
-					},
-					{
-						"product": juiceModel.peach,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.flute,
-				"recipe": "Налейте в охлажденный бокал для шампанского персиковый сок. Размешайте сок так что бы он кружился в бокале и медленно долевайте шампанское. Украсьте долькой персика."
-			},
-			{
-				"name": "Кровавая мери",
-				"products": [
-					{
-						"product": juiceModel.tomato,
-						"quantity": 4
-					},
-					{
-						"product": other.worcestershire,
-						"quantity": "4 капли"
-					},
-					{
-						"product": other.tabasco,
-						"quantity": "2 капли"
-					},
-					{
-						"product": juiceModel.lemon,
-						"quantity": "2 ложки"
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Добавьте водки, лимонного сока, вустерширского соуса, соуса тобаско и томатный сок в шейкер для коктейлей. Тщательно перемешайте. Украсьте помидоркой и листиком сельдерея."
-			},
-			{
-				"name": "Камикадзе",
-				"products": [
-					{
-						"product": juiceModel.lemon,
-						"quantity": 0.5
-					},
-					{
-						"product": liqueurModel.cointreau,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.martini,
-				"recipe": "Смешайте шейкером водку, лимонный сок и куантро с 2-3 кубиками льда. Вылейте в охлажденный бокал для коктейлей. Украсьте долькой лайма."
-			},
-			{
-				"name": "Багама-мама",
-				"products": [
-					{
-						"product": alcoholModel.rum.coconut,
-						"quantity": 2
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 1
-					},
-					{
-						"product": juiceModel.orange,
-						"quantity": 1
-					},
-					{
-						"product": juiceModel.pineapple,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.hurricane,
-				"recipe": "Смешайте ананасовый сок, апельсиновый сок, ром и кокосовый ром в шейкере. Вылейте в стакан с 2-3 кубиками льда. Украсьте долькой апельсина, вишенкой и зонтиком."
-			},
-			{
-				"name": "Сингапурский слинг",
-				"products": [
-					{
-						"product": other.sparklingWater,
-						"quantity": ""
-					},
-					{
-						"product": juiceModel.lemon,
-						"quantity": 1
-					},
-					{
-						"product": syrupModel.grenadine,
-						"quantity": 1
-					},
-					{
-						"product": brendyModel.cherry,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.gin,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Смешайте вместе джин, вишневый бренди, гренадин и лимонный сок в шейкере. Вылейте в стакан наполненый льдом. До верха стакана долейте газированной воды. Украсьте долькой апельсина и вишенкой."
-			},
-			{
-				"name": "Дайкири",
-				"products": [
-					{
-						"product": syrupModel.sugar,
-						"quantity": 0.5
-					},
-					{
-						"product": juiceModel.lime,
-						"quantity": 0.5
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.martini,
-				"recipe": "Смешайте в шейкере сахарный сироп, сок лайма и ром со льдом. Украсьте долькой лайма."
-			},
-			{
-				"name": "Дайкири (клубничный). Daiquiri (strawberry).",
-				"products": [
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 5
-					},
-					{
-						"product": liqueurModel.strawberry,
-						"quantity": 1
-					},
-					{
-						"product": juiceModel.lemon,
-						"quantity": 2
-					},
-					{
-						"product": "клубника",
-						"quantity": "2 шт."
-					},
-					{
-						"product": "сахарная пудра",
-						"quantity": "1 чайная ложка"
-					},
-					{
-						"product": "лед",
-						"quantity": "~100-150 гр."
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Фруктовый, освежающий. Все компоненты смешать в блендере и процедите в бокал."
-			},
-			{
-				"name": "Отвертка",
-				"products": [
-					{
-						"product": juiceModel.orange,
-						"quantity": ""
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Наполните стакан льдом и добавьте водки. Сверху налейте апельсинового сока и украсьте долькой апельсина."
-			},
-			{
-				"name": "Морской бриз",
-				"products": [
-					{
-						"product": juiceModel.grape,
-						"quantity": 2
-					},
-					{
-						"product": juiceModel.cranberry,
-						"quantity": 4
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Наполните на половину льдом стакан. Добавьте водки, после нее клюквенный сок, а потом виноградный сок. Украсьте долькой лайма и вишенкой."
-			},
-			{
-				"name": "Шоколадная смерть",
-				"products": [
-					{
-						"product": milkModel.milk,
-						"quantity": ""
-					},
-					{
-						"product": liqueurModel.cremeDeCacao,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.coffee,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.hurricane,
-				"recipe": "Взбейте вместе водку, шоколадный ликер, молоко и кофейный ликер с колотым льдом и вылейте в стакан. Украсьте взбитыми сливками, вишенкой и тертым шоколадом."
-			},
-			{
-				"name": "Интуитивная прозорливость",
-				"products": [
-					{
-						"product": alcoholModel.peachSchnapps,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.lemon,
-						"quantity": 1
-					},
-					{
-						"product": wineModel.champagne,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.martini,
-				"recipe": "Потрясите шампанское, лимонный ликер и персиковый шнапс с 2-3 кубиками льда в шейкере. Вылейте в охлажденный бокал и украсьте одной малинкой."
-			},
-			{
-				"name": "Ураган",
-				"products": [
-					{
-						"product": juiceModel.orange,
-						"quantity": 1
-					},
-					{
-						"product": syrupModel.grenadine,
-						"quantity": 0.5
-					},
-					{
-						"product": juiceModel.lime,
-						"quantity": 0.5
-					},
-					{
-						"product": juiceModel.maracuja,
-						"quantity": 2
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 3
-					}
-				],
-				"glass": glassModel.hurricane,
-				"recipe": "Смешайте рок, сок маракуйи, сок лайма, гренадин и апельсиновый сокв в шейкере. Вылейте в стакан с 2-3 кубиками льда. Украсьте долькой апельсина и зонтиком."
-			},
-			{
-				"name": "Маями",
-				"products": [
-					{
-						"product": juiceModel.lemon,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.creamDeMint,
-						"quantity": 1.5
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.martini,
-				"recipe": "Потрясите вместе ром, мятный ликер, и лимонный сок в шейкере с 2-3 кубиками льда. Процедите смесь в охлажденный бокал. Украсьте несколькими листиками мяты."
-			},
-			{
-				"name": "P.S. Я тебя люблю",
-				"products": [
-					{
-						"product": liqueurModel.amarulaCream,
-						"quantity": 1
-					},
-					{
-						"product": milkModel.cream,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.amaretto,
-						"quantity": 1.5
-					},
-					{
-						"product": liqueurModel.tiaMaria,
-						"quantity": 1
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.martini,
-				"recipe": "Смешайте вместе ром, тиа мария, амаретто, двойные сливки и сливочный ликер в шейкере. Процедите в охлажденный бокал и украсьте зонтиком."
-			},
-			{
-				"name": "Зомби",
-				"products": [
-					{
-						"product": alcoholModel.rum.black,
-						"quantity": "20 мл."
-					},
-					{
-						"product": alcoholModel.rum.gold,
-						"quantity": "20 мл."
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": "20 мл."
-					},
-					{
-						"product": juiceModel.lime,
-						"quantity": "20 мл."
-					},
-					{
-						"product": brendyModel.apricot,
-						"quantity": "15 мл."
-					},
-					{
-						"product": juiceModel.orange,
-						"quantity": "60 мл."
-					},
-					{
-						"product": juiceModel.pineapple,
-						"quantity": "60 мл."
-					},
-					{
-						"product": bittersModel.angostura,
-						"quantity": "2-3 капли"
-					},
-					{
-						"product": juiceModel.maracuja,
-						"quantity": "50 мл."
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Охлаждаем бокал. Наливаем в шейкер все ингредиенты и взбалтываем. Освобождаем бокал для подачи от талой воды и льда, сливаем в него содержимое шейкера. Украшаем половинкой лайма, очищенной от мякоти, и тростниковым сахаром."
-			},
-			{
-				"name": "Голубые гавайи",
-				"products": [
-					{
-						"product": juiceModel.pineapple,
-						"quantity": 3
-					},
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.blueCuracao,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.malibu,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Вылейте все ингредиенты в бокал со льодом, перемешайте. Украсьте вишенкой."
-			},
-			{
-				"name": "Фокстрот. Foxtrott.",
-				"products": [
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 4
-					},
-					{
-						"product": liqueurModel.cointreau,
-						"quantity": 1
-					},
-					{
-						"product": juiceModel.lemon,
-						"quantity": 2
-					}
-				],
-				"glass": glassModel.roсks,
-				"recipe": "Фруктово-терпкий коктейль для жаркой погоды. Все компоненты, вместе с кубиками льда встряхните в шейкере и процедите в бокал."
-			},
-			{
-				"name": "Маленький цветок. Petite fleur.",
-				"products": [
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.cointreau,
-						"quantity": 1
-					},
-					{
-						"product": juiceModel.grapefruit,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.shot,
-				"recipe": "Фруктовый. Все компоненты встряхните в шейкере и процедите в бокал."
-			},
-			{
-				"name": "Робсон. Robson.",
-				"products": [
-					{
-						"product": alcoholModel.rum.white + " (ИЛИ)",
-						"quantity": 3
-					},
-					{
-						"product": alcoholModel.rum.black + " (ИЛИ)",
-						"quantity": 3
-					},
-					{
-						"product": syrupModel.grenadine,
-						"quantity": 1.5
-					},
-					{
-						"product": juiceModel.orange,
-						"quantity": 1.5
-					},
-					{
-						"product": juiceModel.lemon,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.roсks,
-				"recipe": "Полусухой коктейль. Все компоненты встряхните в шейкере и процедите в бокал."
-			},
-			{
-				"name": "Буравчик с ромом",
-				"products": [
-					{
-						"product": alcoholModel.rum.black,
-						"quantity": 2
-					},
-					{
-						"product": syrupModel.lime,
-						"quantity": 1
-					},
-					{
-						"product": "лайм",
-						"quantity": "1/4"
-					}
-				],
-				"glass": glassModel.roсks,
-				"recipe": "Все компоненты со льдом перемешайте в бокале."
-			},
-			{
-				"name": "Коралловое море",
-				"products": [
-					{
-						"product": alcoholModel.rum.white,
-						"quantity": 3
-					},
-					{
-						"product": liqueurModel.blueCuracao,
-						"quantity": 2
-					},
-					{
-						"product": syrupModel.coconut,
-						"quantity": 5
-					},
-					{
-						"product": juiceModel.pineapple,
-						"quantity": 5
-					},
-					{
-						"product": milkModel.cream,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Все компоненты встряхните в шейкере. Вылейте содержимое из шейкера в бокал со льдом. Украсьте 1/4 кружка ананаса, вишенкой и веточкой мяты."
-			},
-			{
-				"name": "Айс пик",
-				"products": [
-					{
-						"product": "чай",
-						"quantity": 7
-					},
-					{
-						"product": alcoholModel.vodka,
-						"quantity": 1
-					}
-				],
-				"glass": glassModel.haighball,
-				"recipe": "Все компоненты перемешайте в шейкере. Вылейте содержимое из шейкера в бокал со льдом. Украсьте долькой лимона."
-			},
-			{
-				"name": "Александр",
-				"products": [
-					{
-						"product": brendyModel.brendy,
-						"quantity": 1
-					},
-					{
-						"product": liqueurModel.cremeDeCacao,
-						"quantity": 1
-					},
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.min.js"></script>
+    <script>
+        var MODULE_NAME = "coctails";
+        var alcoholModel = {
+            "tequila": "текила",
+            "rum": {
+                "white": "светлый ром",
+                "black": "темный ром",
+                "coconut": "кокосовый ром",
+                "gold": "золотой ром"
+            },
+            "vodka": "водка",
+            "peachSchnapps": "персиковый шнапс",
+            "gin": "джин",
+            "burbon": "бурбон (производимый в США из кукурузы золотистого цвета)",
+            "whiskey": "виски"
+        };
+        var liqueurModel = {
+            "cointreau": "куантро",
+            "blueCuracao": "блю кюрасао",
+            "tiaMaria": "тиа мария",
+            "amaretto": "амаретто",
+            "tripleSec": "трипл сек",
+            "cremeDeCacao": "шоколадный ликер",
+            "coffee": "кофейный ликер",
+            "lemon": "лимонный ликер",
+            "creamDeMint": "мятный ликер",
+            "amarulaCream": "сливочный ликёр",
+            "malibu": "кокосовый ликер",
+            "strawberry": "клубничный ликер",
+            "kahlua": "калуа (мексиканський кавовий лікер)",
+            "cherry": "вишневый ликер"
+        };
+        var juiceModel = {
+            "orange": "апельсиновый сок",
+            "lime": "сок лайма",
+            "pineapple": "ананасовый сок",
+            "lemonade": "лимонад",
+            "cranberry": "клюквеный сок",
+            "lemon": "лимонный сок",
+            "peach": "персиковый сок",
+            "tomato": "томатный сок",
+            "grape": "виноградный сок",
+            "maracuja": "сок маракуйи",
+            "grapefruit": "грейпфрутовый сок"
+        };
+        var syrupModel = {
+            "grenadine": "гренадин",
+            "sugar": "сахарный сироп",
+            "lime": "сироп лайма",
+            "coconut": "кокосовый сироп"
+        };
+        var milkModel = {
+            "cream": "сливки",
+            "coconutСream": "кокосовые сливки",
+            "milk": "молоко"
+        };
+        var wineModel = {
+            "vermouth": "вермут",
+            "champagne": "шампанское"
+        };
+        var bittersModel = {
+            "angostura": "агустура"
+        };
+        var sodaModel = {
+            "sprite": "спрайт",
+            "cocaCola": "кока кола",
+            "tonic": "тоник"
+        };
+        var brendyModel = {
+            "brendy": "бренди",
+            "apricot": "абрикосовый бренди",
+            "cherry": "вишневый бренди"
+        };
+        var other = {
+            "worcestershire": "вустерширский соус",
+            "tabasco": "соус табаско",
+            "sparklingWater": "газированая вода",
+            "mint": "мята",
+            "water": "вода"
+        };
+        var glassModel = {
+            "roсks": "рокс (также похожи: олд фешн)",
+            "flute": "флюте",
+            "champagneCoupe": "champagne coupe",
+            "haighball": "хайбол (также похожи: колинс / зомби / тумблер)",
+            "shot": "шот",
+            "martini": "мартинка",
+            "margarita": {
+                "saucer": "маргарита (блюдце)",
+                "welled": "маргарита"
+            },
+            "brandySnifter": "коньячный бокал",
+            "hurricane": "ураган",
+            "milkshake": "бокал для молочных коктейлей",
+            "irishCoffee": "бокал для ирландского кофе (для горячих коктейлей)",
+            "wine": {
+                "balloon": "винный шарообразный"
+            }
+        };
+        var coctailsModel = [
+            {
+                "name": "Маргарита",
+                "products": [
+                    {
+                        "product": juiceModel.lime,
+                        "quantity": 2
+                    },
+                    {
+                        "product": liqueurModel.cointreau,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.tequila,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.margarita.welled,
+                "recipe": "Протрите край бокала долькой лайма, переверните его в тарелку с солью и покрутите в ней бокал, чтобы соль осталась на краях. Смешайте текилу, куантро и сок лайма в шейкре и процедите его в подготовленый бокал, украшеный долькой лайма."
+            },
+            {
+                "name": "Маргарита фроузен",
+                "products": [
+                    {
+                        "product": juiceModel.lime,
+                        "quantity": 2
+                    },
+                    {
+                        "product": liqueurModel.cointreau,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.tequila,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.margarita.welled,
+                "recipe": "Взбить все ингредиенты со льдом в блендере (метод Blend). Процедить в охлажденный бокал подачи."
+            },
+            {
+                "name": "Текиловый рассвет",
+                "products": [
+                    {
+                        "product": juiceModel.orange,
+                        "quantity": ""
+                    },
+                    {
+                        "product": alcoholModel.tequila,
+                        "quantity": 1
+                    },
+                    {
+                        "product": syrupModel.grenadine,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Наполните до половины стакан кубиками льда и налейте текилы. Добавьте апельсинового сока почти до краев стакана и добавьте несколько капель гренадина, который опускаясь на дно стакана создаст эффект заката солнца. В качестве украшения можете добавить кольцо/дольку апельсина и вишенкой."
+            },
+            {
+                "name": "Пина колада",
+                "products": [
+                    {
+                        "product": milkModel.cream,
+                        "quantity": 1
+                    },
+                    {
+                        "product": milkModel.coconutСream,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 2
+                    },
+                    {
+                        "product": juiceModel.pineapple,
+                        "quantity": 4
+                    }
+                ],
+                "glass": glassModel.hurricane,
+                "recipe": "Смешайте и потрусите вместе с белым ромом ананасовый сок, сливки и кокосовые сливки с 3-5 кубиками колотого льда, взболтайте. Вылейте смесь в бокал и украсьте долькой ананаса и коктейльным зонтиком."
+            },
+            {
+                "name": "Голубая лагуна",
+                "products": [
+                    {
+                        "product": juiceModel.lemonade,
+                        "quantity": ""
+                    },
+                    {
+                        "product": liqueurModel.blueCuracao,
+                        "quantity": 2
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Налейте водки в стакан до середины наполеный колотым льдом. Медленно, сверху наливайте блю кюрасао и потом заполните лимонадом. Украсьте долькой лимона или апельсина."
+            },
+            {
+                "name": "Космополитан",
+                "products": [
+                    {
+                        "product": juiceModel.cranberry,
+                        "quantity": 1
+                    },
+                    {
+                        "product": juiceModel.lime,
+                        "quantity": 0.5
+                    },
+                    {
+                        "product": liqueurModel.cointreau,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.martini,
+                "recipe": "Перемешайте в шейкре вместе водку, куантро, и сок лайма и клюквенный в коктейльном миксере с двумя кубиками льда."
+            },
+            {
+                "name": "Космополитан [2]",
+                "products": [
+                    {
+                        "product": juiceModel.cranberry,
+                        "quantity": 3
+                    },
+                    {
+                        "product": juiceModel.lime,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.cointreau,
+                        "quantity": 1.5
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 4
+                    }
+                ],
+                "glass": glassModel.martini,
+                "recipe": "Перемешайте в шейкре вместе водку, куантро, и сок лайма и клюквенный в коктейльном миксере с двумя кубиками льда."
+            },
+            {
+                "name": "Ву ву",
+                "products": [
+                    {
+                        "product": juiceModel.cranberry,
+                        "quantity": ""
+                    },
+                    {
+                        "product": alcoholModel.peachSchnapps,
+                        "quantity": 2
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Наполните стакан до половины льдом. Добавьте водки и персикового шнапса. Сверху долейте клюквиного сока. Перемешайте, украсьте долькой апельсина или лимона."
+            },
+            {
+                "name": "Кричащий оргазм",
+                "products": [
+                    {
+                        "product": milkModel.milk,
+                        "quantity": 3
+                    },
+                    {
+                        "product": liqueurModel.tiaMaria,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.amaretto,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.wine.balloon,
+                "recipe": "Потрите край бокала долькой лайма, переверните его в тарелку с солью и покрутите в ней бокал, чтобы соль осталась на краях. Смешайте текилу, куантро и сок лайма в шейкре и процедите его в подготовленый бокал, украшеный долькой лайма."
+            },
+            {
+                "name": "Мартини",
+                "products": [
+                    {
+                        "product": wineModel.vermouth,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.gin,
+                        "quantity": 3
+                    }
+                ],
+                "glass": glassModel.martini,
+                "recipe": "Потрясите вместе с джин и вермут в шейкре вместе с 2-3 кубиками льда. Потом вылейте содержимое в охлажденный бокал для коктейлей. Украсьте закрученной полоской из кожуры лимона, добавьте наколотую на шпашку оливку."
+            },
+            {
+                "name": "Кислый амаретто",
+                "products": [
+                    {
+                        "product": juiceModel.lemon,
+                        "quantity": 1.5
+                    },
+                    {
+                        "product": syrupModel.sugar,
+                        "quantity": 2
+                    },
+                    {
+                        "product": liqueurModel.amaretto,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.shot,
+                "recipe": "Потрусите амаретто, сахарный сироп и сок лимона в шейкре наполеный на половину кубиками льда. Вылейте в стакан и украсьте вишенкой и долькой апельсина."
+            },
+            {
+                "name": "Мохито",
+                "products": [
+                    {
+                        "product": bittersModel.angostura,
+                        "quantity": "три капли"
+                    },
+                    {
+                        "product": syrupModel.sugar,
+                        "quantity": 1
+                    },
+                    {
+                        "product": sodaModel.sprite,
+                        "quantity": ""
+                    },
+                    {
+                        "product": juiceModel.lime,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Размешайте в стакане несколько листиков мяты с сахарным сиропом и соком лайма. Заполните стакан кубиками льда до верху. Добавьте несколько капель ангостуры и ром.Сверху долейте соды(спрайт)/газировки. Украсьте долькой лайма."
+            },
+            {
+                "name": "Голубой Мохито",
+                "products": [
+                    {
+                        "product": liqueurModel.blueCuracao,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 2
+                    },
+                    {
+                        "product": other.mint,
+                        "quantity": 6
+                    },
+                    {
+                        "product": juiceModel.lime,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "В шейкере смешайте ром, ликер, мяту, и лед. Вылейте в стакан для виски и полейте содой."
+            },
+            {
+                "name": "Секс на пляже",
+                "products": [
+                    {
+                        "product": juiceModel.cranberry,
+                        "quantity": 3
+                    },
+                    {
+                        "product": juiceModel.orange,
+                        "quantity": 3
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 2
+                    },
+                    {
+                        "product": alcoholModel.peachSchnapps,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Взболтайте водку, персиковый шнапс с 3-5 кубиками льда в шейкере. Вылейте содержимое в подготовленый стакан и долейте до верху клюквенный и апельсиновый сок. Украсьте долькой апельсина и несколько вишен."
+            },
+            {
+                "name": "Черный русский",
+                "products": [
+                    {
+                        "product": sodaModel.cocaCola,
+                        "quantity": 1
+                    },
+                    {
+                        "product": milkModel.milk,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.tiaMaria,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.roсks,
+                "recipe": "Взболтайте водку, ликер тиа мария и молоко в шейкере. Наполните стакан кубиками льда и добавьте содержимым из шейкера. Долейте до верху колы."
+            },
+            {
+                "name": "Лонг Айленд Айс Ти",
+                "products": [
+                    {
+                        "product": sodaModel.cocaCola,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.tripleSec,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.tequila,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.gin,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Взболтайте вместе водку, джин, ром, ликер трипл сек, текилу с 2-3 кубиками льда. Процедите смесь в подготовленый стакан. Украсьте стакан долькой лимона и несколькими листиками мяты."
+            },
+            {
+                "name": "Манхетнтен",
+                "products": [
+                    {
+                        "product": wineModel.vermouth,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.burbon,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.martini,
+                "recipe": "Смешайте бурбон и вермут в шейкере. Вылейте в стакан для коктейлей с колотым льдом. Украсьте вишенкой."
+            },
+            {
+                "name": "Май тай",
+                "products": [
+                    {
+                        "product": bittersModel.angostura,
+                        "quantity": "1 капля"
+                    },
+                    {
+                        "product": brendyModel.apricot,
+                        "quantity": 0.5
+                    },
+                    {
+                        "product": juiceModel.pineapple,
+                        "quantity": 0.5
+                    },
+                    {
+                        "product": juiceModel.lime,
+                        "quantity": 0.5
+                    },
+                    {
+                        "product": juiceModel.orange,
+                        "quantity": 0.5
+                    },
+                    {
+                        "product": alcoholModel.rum.black,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.roсks,
+                "recipe": "Смешайте ром, апельсиновый сок, сок лайма, ананасовый сок, абрикосовый бренди с ангостурой и льдом в шейкере. Процедите в охлажденный стакан. Украсьте листиком мяты и долькой лимона."
+            },
+            {
+                "name": "Клюквеный охладитель",
+                "products": [
+                    {
+                        "product": juiceModel.cranberry,
+                        "quantity": 3
+                    },
+                    {
+                        "product": juiceModel.orange,
+                        "quantity": 2
+                    },
+                    {
+                        "product": liqueurModel.amaretto,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Смешайте водку, амаретто, апельсиновый сок и клюквенный сок. Вылейте содержимое в стакан с несколькими, колотыми кубиками льда. Выдавите дольку лайма к этой смеси."
+            },
+            {
+                "name": "Беллини",
+                "products": [
+                    {
+                        "product": wineModel.champagne,
+                        "quantity": 2
+                    },
+                    {
+                        "product": juiceModel.peach,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.flute,
+                "recipe": "Налейте в охлажденный бокал для шампанского персиковый сок. Размешайте сок так что бы он кружился в бокале и медленно долевайте шампанское. Украсьте долькой персика."
+            },
+            {
+                "name": "Кровавая мери",
+                "products": [
+                    {
+                        "product": juiceModel.tomato,
+                        "quantity": 4
+                    },
+                    {
+                        "product": other.worcestershire,
+                        "quantity": "4 капли"
+                    },
+                    {
+                        "product": other.tabasco,
+                        "quantity": "2 капли"
+                    },
+                    {
+                        "product": juiceModel.lemon,
+                        "quantity": "2 ложки"
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Добавьте водки, лимонного сока, вустерширского соуса, соуса тобаско и томатный сок в шейкер для коктейлей. Тщательно перемешайте. Украсьте помидоркой и листиком сельдерея."
+            },
+            {
+                "name": "Камикадзе",
+                "products": [
+                    {
+                        "product": juiceModel.lemon,
+                        "quantity": 0.5
+                    },
+                    {
+                        "product": liqueurModel.cointreau,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.martini,
+                "recipe": "Смешайте шейкером водку, лимонный сок и куантро с 2-3 кубиками льда. Вылейте в охлажденный бокал для коктейлей. Украсьте долькой лайма."
+            },
+            {
+                "name": "Багама-мама",
+                "products": [
+                    {
+                        "product": alcoholModel.rum.coconut,
+                        "quantity": 2
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 1
+                    },
+                    {
+                        "product": juiceModel.orange,
+                        "quantity": 1
+                    },
+                    {
+                        "product": juiceModel.pineapple,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.hurricane,
+                "recipe": "Смешайте ананасовый сок, апельсиновый сок, ром и кокосовый ром в шейкере. Вылейте в стакан с 2-3 кубиками льда. Украсьте долькой апельсина, вишенкой и зонтиком."
+            },
+            {
+                "name": "Сингапурский слинг",
+                "products": [
+                    {
+                        "product": other.sparklingWater,
+                        "quantity": ""
+                    },
+                    {
+                        "product": juiceModel.lemon,
+                        "quantity": 1
+                    },
+                    {
+                        "product": syrupModel.grenadine,
+                        "quantity": 1
+                    },
+                    {
+                        "product": brendyModel.cherry,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.gin,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Смешайте вместе джин, вишневый бренди, гренадин и лимонный сок в шейкере. Вылейте в стакан наполненый льдом. До верха стакана долейте газированной воды. Украсьте долькой апельсина и вишенкой."
+            },
+            {
+                "name": "Дайкири",
+                "products": [
+                    {
+                        "product": syrupModel.sugar,
+                        "quantity": 0.5
+                    },
+                    {
+                        "product": juiceModel.lime,
+                        "quantity": 0.5
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.martini,
+                "recipe": "Смешайте в шейкере сахарный сироп, сок лайма и ром со льдом. Украсьте долькой лайма."
+            },
+            {
+                "name": "Дайкири (клубничный). Daiquiri (strawberry).",
+                "products": [
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 5
+                    },
+                    {
+                        "product": liqueurModel.strawberry,
+                        "quantity": 1
+                    },
+                    {
+                        "product": juiceModel.lemon,
+                        "quantity": 2
+                    },
+                    {
+                        "product": "клубника",
+                        "quantity": "2 шт."
+                    },
+                    {
+                        "product": "сахарная пудра",
+                        "quantity": "1 чайная ложка"
+                    },
+                    {
+                        "product": "лед",
+                        "quantity": "~100-150 гр."
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Фруктовый, освежающий. Все компоненты смешать в блендере и процедите в бокал."
+            },
+            {
+                "name": "Отвертка",
+                "products": [
+                    {
+                        "product": juiceModel.orange,
+                        "quantity": 2
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Наполните стакан льдом и добавьте водки. Сверху налейте апельсинового сока и украсьте долькой апельсина."
+            },
+            {
+                "name": "Морской бриз",
+                "products": [
+                    {
+                        "product": juiceModel.grape,
+                        "quantity": 2
+                    },
+                    {
+                        "product": juiceModel.cranberry,
+                        "quantity": 4
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Наполните на половину льдом стакан. Добавьте водки, после нее клюквенный сок, а потом виноградный сок. Украсьте долькой лайма и вишенкой."
+            },
+            {
+                "name": "Шоколадная смерть",
+                "products": [
+                    {
+                        "product": milkModel.milk,
+                        "quantity": ""
+                    },
+                    {
+                        "product": liqueurModel.cremeDeCacao,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.coffee,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.hurricane,
+                "recipe": "Взбейте вместе водку, шоколадный ликер, молоко и кофейный ликер с колотым льдом и вылейте в стакан. Украсьте взбитыми сливками, вишенкой и тертым шоколадом."
+            },
+            {
+                "name": "Интуитивная прозорливость",
+                "products": [
+                    {
+                        "product": alcoholModel.peachSchnapps,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.lemon,
+                        "quantity": 1
+                    },
+                    {
+                        "product": wineModel.champagne,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.martini,
+                "recipe": "Потрясите шампанское, лимонный ликер и персиковый шнапс с 2-3 кубиками льда в шейкере. Вылейте в охлажденный бокал и украсьте одной малинкой."
+            },
+            {
+                "name": "Ураган",
+                "products": [
+                    {
+                        "product": juiceModel.orange,
+                        "quantity": 1
+                    },
+                    {
+                        "product": syrupModel.grenadine,
+                        "quantity": 0.5
+                    },
+                    {
+                        "product": juiceModel.lime,
+                        "quantity": 0.5
+                    },
+                    {
+                        "product": juiceModel.maracuja,
+                        "quantity": 2
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 3
+                    }
+                ],
+                "glass": glassModel.hurricane,
+                "recipe": "Смешайте рок, сок маракуйи, сок лайма, гренадин и апельсиновый сокв в шейкере. Вылейте в стакан с 2-3 кубиками льда. Украсьте долькой апельсина и зонтиком."
+            },
+            {
+                "name": "Маями",
+                "products": [
+                    {
+                        "product": juiceModel.lemon,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.creamDeMint,
+                        "quantity": 1.5
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.martini,
+                "recipe": "Потрясите вместе ром, мятный ликер, и лимонный сок в шейкере с 2-3 кубиками льда. Процедите смесь в охлажденный бокал. Украсьте несколькими листиками мяты."
+            },
+            {
+                "name": "P.S. Я тебя люблю",
+                "products": [
+                    {
+                        "product": liqueurModel.amarulaCream,
+                        "quantity": 1
+                    },
+                    {
+                        "product": milkModel.cream,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.amaretto,
+                        "quantity": 1.5
+                    },
+                    {
+                        "product": liqueurModel.tiaMaria,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.martini,
+                "recipe": "Смешайте вместе ром, тиа мария, амаретто, двойные сливки и сливочный ликер в шейкере. Процедите в охлажденный бокал и украсьте зонтиком."
+            },
+            {
+                "name": "Зомби",
+                "products": [
+                    {
+                        "product": alcoholModel.rum.black,
+                        "quantity": "20 мл."
+                    },
+                    {
+                        "product": alcoholModel.rum.gold,
+                        "quantity": "20 мл."
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": "20 мл."
+                    },
+                    {
+                        "product": juiceModel.lime,
+                        "quantity": "20 мл."
+                    },
+                    {
+                        "product": brendyModel.apricot,
+                        "quantity": "15 мл."
+                    },
+                    {
+                        "product": juiceModel.orange,
+                        "quantity": "60 мл."
+                    },
+                    {
+                        "product": juiceModel.pineapple,
+                        "quantity": "60 мл."
+                    },
+                    {
+                        "product": bittersModel.angostura,
+                        "quantity": "2-3 капли"
+                    },
+                    {
+                        "product": juiceModel.maracuja,
+                        "quantity": "50 мл."
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Охлаждаем бокал. Наливаем в шейкер все ингредиенты и взбалтываем. Освобождаем бокал для подачи от талой воды и льда, сливаем в него содержимое шейкера. Украшаем половинкой лайма, очищенной от мякоти, и тростниковым сахаром."
+            },
+            {
+                "name": "Голубые гавайи",
+                "products": [
+                    {
+                        "product": juiceModel.pineapple,
+                        "quantity": 3
+                    },
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.blueCuracao,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.malibu,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Вылейте все ингредиенты в бокал со льодом, перемешайте. Украсьте вишенкой."
+            },
+            {
+                "name": "Фокстрот. Foxtrott.",
+                "products": [
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 4
+                    },
+                    {
+                        "product": liqueurModel.cointreau,
+                        "quantity": 1
+                    },
+                    {
+                        "product": juiceModel.lemon,
+                        "quantity": 2
+                    }
+                ],
+                "glass": glassModel.roсks,
+                "recipe": "Фруктово-терпкий коктейль для жаркой погоды. Все компоненты, вместе с кубиками льда встряхните в шейкере и процедите в бокал."
+            },
+            {
+                "name": "Маленький цветок. Petite fleur.",
+                "products": [
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.cointreau,
+                        "quantity": 1
+                    },
+                    {
+                        "product": juiceModel.grapefruit,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.shot,
+                "recipe": "Фруктовый. Все компоненты встряхните в шейкере и процедите в бокал."
+            },
+            {
+                "name": "Робсон. Robson.",
+                "products": [
+                    {
+                        "product": alcoholModel.rum.white + " (ИЛИ)",
+                        "quantity": 3
+                    },
+                    {
+                        "product": alcoholModel.rum.black + " (ИЛИ)",
+                        "quantity": 3
+                    },
+                    {
+                        "product": syrupModel.grenadine,
+                        "quantity": 1.5
+                    },
+                    {
+                        "product": juiceModel.orange,
+                        "quantity": 1.5
+                    },
+                    {
+                        "product": juiceModel.lemon,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.roсks,
+                "recipe": "Полусухой коктейль. Все компоненты встряхните в шейкере и процедите в бокал."
+            },
+            {
+                "name": "Буравчик с ромом",
+                "products": [
+                    {
+                        "product": alcoholModel.rum.black,
+                        "quantity": 2
+                    },
+                    {
+                        "product": syrupModel.lime,
+                        "quantity": 1
+                    },
+                    {
+                        "product": "лайм",
+                        "quantity": "1/4"
+                    }
+                ],
+                "glass": glassModel.roсks,
+                "recipe": "Все компоненты со льдом перемешайте в бокале."
+            },
+            {
+                "name": "Коралловое море",
+                "products": [
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 3
+                    },
+                    {
+                        "product": liqueurModel.blueCuracao,
+                        "quantity": 2
+                    },
+                    {
+                        "product": syrupModel.coconut,
+                        "quantity": 5
+                    },
+                    {
+                        "product": juiceModel.pineapple,
+                        "quantity": 5
+                    },
                     {
                         "product": milkModel.cream,
                         "quantity": 1
                     }
-				],
-				"glass": glassModel.margarita.saucer,
-				"recipe": "Все компоненты перемешайте в шейкере. Вылейте содержимое из шейкера в бокал."
-			},
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Все компоненты встряхните в шейкере. Вылейте содержимое из шейкера в бокал со льдом. Украсьте 1/4 кружка ананаса, вишенкой и веточкой мяты."
+            },
+            {
+                "name": "Айс пик",
+                "products": [
+                    {
+                        "product": "чай",
+                        "quantity": 7
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Все компоненты перемешайте в шейкере. Вылейте содержимое из шейкера в бокал со льдом. Украсьте долькой лимона."
+            },
+            {
+                "name": "Александр",
+                "products": [
+                    {
+                        "product": brendyModel.brendy,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.cremeDeCacao,
+                        "quantity": 1
+                    },
+                    {
+                        "product": milkModel.cream,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.margarita.saucer,
+                "recipe": "Все компоненты перемешайте в шейкере. Вылейте содержимое из шейкера в бокал."
+            },
             {
                 "name": "Белый русский",
                 "products": [
@@ -1244,56 +1264,165 @@
                 ],
                 "glass": glassModel.haighball,
                 "recipe": "Наполни хайбол кубиками льда доверху. Добавь лаймовый сок и белый ром. Долей колу доверху и аккуратно размешай коктейльной ложкой. Укрась 2 кружочками лайма."
+            },
+            {
+                "name": "Текила санрайз",
+                "products": [
+                    {
+                        "product": alcoholModel.tequila,
+                        "quantity": 3
+                    },
+                    {
+                        "product": juiceModel.orange,
+                        "quantity": 6
+                    },
+                    {
+                        "product": syrupModel.grenadine,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Налейте текилу и апельсиновый сок прямо в хайбол с кубиками льда. Добавьте всплеск гренадина для создания хроматического эффекта (восхода солнца), не мешайте. Украсить апельсиновым ломтиком и вишней."
+            },
+            {
+                "name": "Куба Либре",
+                "products": [
+                    {
+                        "product": alcoholModel.rum.white,
+                        "quantity": 5
+                    },
+                    {
+                        "product": sodaModel.cocaCola,
+                        "quantity": 12
+                    },
+                    {
+                        "product": juiceModel.lime,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Заполните стакан льдом. Влейте ингридиенты. Украсить лаймовым клином."
+            },
+            {
+                "name": "Мятный джулеп",
+                "products": [
+                    {
+                        "product": alcoholModel.whiskey,
+                        "quantity": "~60 ml"
+                    },
+                    {
+                        "product": other.mint,
+                        "quantity": 4
+                    },
+                    {
+                        "product": other.water,
+                        "quantity": "2 ложки"
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "В стакане перетирают мяту, сахар и воду. Наполните стакан колотым льдом, добавьте бурбон и хорошо перемешайте. Украсьте мятой."
+            },
+            {
+                "name": "Напиток Джо",
+                "products": [
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 1
+                    },
+                    {
+                        "product": sodaModel.tonic,
+                        "quantity": 3
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": "Смешайте ингридиенты в бокале со льдом. Украсьте долькой лимона."
             }
-		];
-		
 
-		(function() {
-			"use strict";
+/* for easier adding the new recipe
+            ,
+            {
+                "name": "",
+                "products": [
+                    {
+                        "product": alcoholModel.whiskey,
+                        "quantity": 1
+                    },
+                    {
+                        "product": other.mint,
+                        "quantity": 1
+                    },
+                    {
+                        "product": other.water,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.haighball,
+                "recipe": ""
+            }
+*/
+        ];
 
-			angular
-				.module(MODULE_NAME, [])
-				.controller("MainController", MainController)
-			;
+        /* FIXME: glasses (for longs ... ?) or add the type of the coctail */
+        /* TODO: search by name of the coctail */
+        /* TODO: Make a diff btw bourbon and other types of whiskey */
+        /* TODO: fix header when scroll */
+        /* TODO: languages */
+        /* TODO: multiselect when search by ingridients (ui/ux) */
+        /* TODO: calculate ---
+                 alcohol if you have:
+                 a) number of coctail portions
+        */
+        /* TODO: calculate ---
+                 possibilities of the coctails if you have:
+                 b) some volume of the alcohol
+        */
 
-			MainController.$inject = ["$scope", "$filter"];
-			function MainController($scope, $filter) {
-				$scope.coctailsModel = coctailsModel;
-				$scope.test = "ttt";
+        (function() {
+            "use strict";
 
-				$scope.searchMethod = searchMethod;
+            angular
+                .module(MODULE_NAME, [])
+                .controller("MainController", MainController)
+            ;
 
-				function searchMethod() {
-					var searchParams = [];
-					searchParams = $scope.searchModel.trim().split(" ");
-					searchSubString(searchParams);
-				}
+            MainController.$inject = ["$scope", "$filter"];
+            function MainController($scope, $filter) {
+                $scope.coctailsModel = coctailsModel;
+                $scope.test = "ttt";
 
-				function searchSubString(params) {
-					var coctailsModelLength = coctailsModel.length;
-					var paramsLength = params.length;
-					var res = [];
+                $scope.searchMethod = searchMethod;
 
-					for(var i = 0; i < coctailsModelLength; i++) {
-						var productLength = coctailsModel[i].products.length;
-						for(var j = 0; j < productLength; j++) {
-							var a = false;
-							for(var z = 0; z < paramsLength; z++) {
-								if(coctailsModel[i].products[j].product.indexOf(params[z]) !== -1) {
-									res.push(coctailsModel[i]);
-									a = true;
-								}
-							}
+                function searchMethod() {
+                    var searchParams = [];
+                    searchParams = $scope.searchModel.trim().split(" ");
+                    searchSubString(searchParams);
+                }
 
-							if (a) { break; }
-						}
-					}
+                function searchSubString(params) {
+                    var coctailsModelLength = coctailsModel.length;
+                    var paramsLength = params.length;
+                    var res = [];
 
-					$scope.coctailsModel = $filter('filter')(res);
-					console.log($scope.coctailsModel);
-				}
-			}
-		})();
-	</script>
+                    for(var i = 0; i < coctailsModelLength; i++) {
+                        var productLength = coctailsModel[i].products.length;
+                        for(var j = 0; j < productLength; j++) {
+                            var a = false;
+                            for(var z = 0; z < paramsLength; z++) {
+                                if(coctailsModel[i].products[j].product.indexOf(params[z]) !== -1) {
+                                    res.push(coctailsModel[i]);
+                                    a = true;
+                                }
+                            }
+
+                            if (a) { break; }
+                        }
+                    }
+
+                    $scope.coctailsModel = $filter('filter')(res);
+                    console.log($scope.coctailsModel);
+                }
+            }
+        })();
+    </script>
 </body>
 </html>
