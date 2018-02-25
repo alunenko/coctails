@@ -59,18 +59,30 @@
     <script>
         var MODULE_NAME = "coctails";
         var alcoholModel = {
+            "gin": "джин",
             "tequila": "текила",
+            "vodka": "водка",
+            "absent": {
+                "default": "абсент",
+                "red": "красный абсент"
+            },
             "rum": {
                 "white": "светлый ром",
                 "black": "темный ром",
                 "coconut": "кокосовый ром",
                 "gold": "золотой ром"
             },
-            "vodka": "водка",
-            "peachSchnapps": "персиковый шнапс",
-            "gin": "джин",
-            "burbon": "бурбон (производимый в США из кукурузы золотистого цвета)",
-            "whiskey": "виски"
+            "peachSchnapps": "персиковый шнапс", /* DEPRECATED */
+            "schnapps": {
+                "peach": "персиковый шнапс"
+            },
+            "burbon": "бурбон (производимый в США из кукурузы золотистого цвета)", /* DEPRECATED */
+            "whiskey": "виски", /* DEPRECATED */
+            "whiskey_fixed": {/* DON't use while named as *_fixed */
+                "whiskey": "виски",
+                "bourbon": "бурбон (производимый в США из кукурузы золотистого цвета)",
+                "scottish": "Шотландский виски"
+            }
         };
         var liqueurModel = {
             "cointreau": "куантро",
@@ -86,7 +98,12 @@
             "malibu": "кокосовый ликер",
             "strawberry": "клубничный ликер",
             "kahlua": "калуа (мексиканський кавовий лікер)",
-            "cherry": "вишневый ликер"
+            "cherry": "вишневый ликер",
+            "sambuca": "анісовий лікер (італійський)",
+            "jagermeister": "егермейстер (Jägermeister - немецкий, биттер)",
+            "becherovka": "бехеровка (биттер)",
+            "unicum": "уникум (венгерский биттер)",
+            "campari": "кампари"
         };
         var juiceModel = {
             "orange": "апельсиновый сок",
@@ -114,9 +131,8 @@
         };
         var wineModel = {
             "vermouth": "вермут",
-            "champagne": "шампанское"
-        };
-        var bittersModel = {
+            "champagne": "шампанское",
+            "martini": "мартини",
             "angostura": "агустура"
         };
         var sodaModel = {
@@ -134,7 +150,8 @@
             "tabasco": "соус табаско",
             "sparklingWater": "газированая вода",
             "mint": "мята",
-            "water": "вода"
+            "water": "вода",
+            "cinnamon": "корица"
         };
         var glassModel = {
             "roсks": "рокс (также похожи: олд фешн)",
@@ -381,7 +398,7 @@
                 "name": "Мохито",
                 "products": [
                     {
-                        "product": bittersModel.angostura,
+                        "product": wineModel.angostura,
                         "quantity": "три капли"
                     },
                     {
@@ -527,7 +544,7 @@
                 "name": "Май тай",
                 "products": [
                     {
-                        "product": bittersModel.angostura,
+                        "product": wineModel.angostura,
                         "quantity": "1 капля"
                     },
                     {
@@ -919,7 +936,7 @@
                         "quantity": "60 мл."
                     },
                     {
-                        "product": bittersModel.angostura,
+                        "product": wineModel.angostura,
                         "quantity": "2-3 капли"
                     },
                     {
@@ -1307,7 +1324,7 @@
                 "name": "Мятный джулеп",
                 "products": [
                     {
-                        "product": alcoholModel.whiskey,
+                        "product": alcoholModel.burbon,
                         "quantity": "~60 ml"
                     },
                     {
@@ -1336,35 +1353,131 @@
                 ],
                 "glass": glassModel.haighball,
                 "recipe": "Смешайте ингридиенты в бокале со льдом. Украсьте долькой лимона."
+            },
+            {
+                "name": "Бен Ладен #1",
+                "products": [
+                    {
+                        "product": alcoholModel.whiskey, /* scottish */
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.rum.black,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.vodka,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.shot,
+                "recipe": "Слоями, снизу вверх: виски, ром, водка"
+            },
+            {
+                "name": "Бен Ладен #2",
+                "products": [
+                    {
+                        "product": liqueurModel.campari,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.becherovka,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.absent.default,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.shot,
+                "recipe": "Слоями, снизу вверх: компари, бехеровка, абсент"
+            },
+            {
+                "name": "Бен Ладен #3",
+                "products": [
+                    {
+                        "product": liqueurModel.sambuca,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.becherovka,
+                        "quantity": 1
+                    },
+                    {
+                        "product": alcoholModel.absent.default,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.shot,
+                "recipe": "Слоями, снизу вверх: самбука, бехеровка, абсент"
+            },
+            {
+                "name": "Баскетбол (горит)",
+                "products": [
+                    {
+                        "product": alcoholModel.absent.default,
+                        "quantity": 1
+                    },
+                    {
+                        "product": liqueurModel.sambuca,
+                        "quantity": 1
+                    }
+                ],
+                "glass": glassModel.shot,
+                "recipe": "1. Налить в рюмку–шот красный абсент и самбуку в пропорции 1 к 1. 2. Поджечь. 3. Закрыть ладонью. 4. После того, как рюмка присосется к ладони, потрясти рукой (взболтать коктейль). 5. Выпить залпом."
+            },
+            {
+                "name": "Слезы змеи (горит)",
+                "products": [
+                    {
+                        "product": alcoholModel.tequila,
+                        "quantity": 2
+                    },
+                    {
+                        "product": liqueurModel.kahlua,
+                        "quantity": 1
+                    },
+                    {
+                        "product": juiceModel.lemon,
+                        "quantity": 1
+                    },
+                    {
+                        "product": other.cinnamon,
+                        "quantity": "Пыль"
+                    }
+                ],
+                "glass": glassModel.martini,
+                "recipe": "1. Налить текилу в бокал и поджечь. 2. В огонь бросить щепотку корицы. 3. В процессе допивания текилы, долить одновременно кофейный ликер и лимонный фреш."
             }
 
 /* for easier adding the new recipe
-            ,
+,
             {
                 "name": "",
                 "products": [
                     {
-                        "product": alcoholModel.whiskey,
+                        "product": ,
                         "quantity": 1
                     },
                     {
-                        "product": other.mint,
+                        "product": ,
                         "quantity": 1
                     },
                     {
-                        "product": other.water,
+                        "product": ,
                         "quantity": 1
                     }
                 ],
-                "glass": glassModel.haighball,
+                "glass": glassModel.,
                 "recipe": ""
             }
 */
         ];
 
+        /* TODO: possibility to make the new lines into recipe */
         /* FIXME: glasses (for longs ... ?) or add the type of the coctail */
+        /* TODO: coctail legends */
         /* TODO: search by name of the coctail */
-        /* TODO: Make a diff btw bourbon and other types of whiskey */
         /* TODO: fix header when scroll */
         /* TODO: languages */
         /* TODO: multiselect when search by ingridients (ui/ux) */
